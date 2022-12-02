@@ -6,10 +6,12 @@ import (
 )
 
 func day1(filename string) {
+	fmt.Println("Day 1")
+
 	part1 := maxCals(filename)
 	fmt.Printf("Part 1: %d\n", part1)
 
-	part2 := max3Cals(filename)
+	part2 := maxCalsPart2(filename)
 	fmt.Printf("Part 2: %d\n", part2)
 }
 
@@ -38,7 +40,7 @@ func maxCals(filename string) int {
 	return maxCals
 }
 
-func max3Cals(filename string) int {
+func maxCalsPart2(filename string) int {
 	var (
 		data           = getLines(filename)
 		totalCalsList  = []int{}
