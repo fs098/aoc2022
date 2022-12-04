@@ -41,8 +41,8 @@ func existsOverlap(s string) (bool, bool) {
 		overlaps = false
 	)
 
-	n, err := fmt.Sscanf(s, "%d-%d,%d-%d", &start1, &end1, &start2, &end2)
-	if n != 4 || err != nil {
+	_, err := fmt.Sscanf(s, "%d-%d,%d-%d", &start1, &end1, &start2, &end2)
+	if err != nil {
 		log.Fatal(err)
 	}
 
