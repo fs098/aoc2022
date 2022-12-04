@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"log"
 )
 
 func day4(filename string) {
@@ -32,16 +32,19 @@ func totalOverlap(data []string) (int, int) {
 
 func existsOverlap(s string) (bool, bool) {
 	var (
-		values = strings.Split(s, ",")
-		range1 = mapReadInts(strings.Split(values[0], "-"))
-		range2 = mapReadInts(strings.Split(values[1], "-"))
-
-		start1, end1 = range1[0], range1[1]
-		start2, end2 = range2[0], range2[1]
+		start1 int
+		start2 int
+		end1   int
+		end2   int
 
 		contains = false
 		overlaps = false
 	)
+
+	n, err := fmt.Sscanf(s, "%d-%d,%d-%d", &start1, &end1, &start2, &end2)
+	if n != 4 || err != nil {
+		log.Fatal(err)
+	}
 
 	if start1 >= start2 && end1 <= end2 {
 		contains = true
