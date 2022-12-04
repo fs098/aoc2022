@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -37,7 +36,7 @@ func getWords(line string) []string {
 func readInt(s string) int {
 	i, err := strconv.Atoi(s)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	return i
 }
