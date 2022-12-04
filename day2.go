@@ -11,46 +11,30 @@ const (
 )
 
 func day2(filename string) {
+	data := getLines(filename)
+	part1, part2 := totalScores(data)
+
 	fmt.Println("Day 2")
-
-	part1 := totalScorePart1(filename)
 	fmt.Println("Part 1:", part1)
-
-	part2 := totalScorePart2(filename)
 	fmt.Println("Part 2:", part2)
 }
 
-func totalScorePart1(filename string) int {
-	result := 0
-	data := getLines(filename)
+func totalScores(data []string) (int, int) {
+	part1 := 0
+	part2 := 0
+
 	for _, v := range data {
-		if v == "" {
-			continue
-		}
-		words := getWords(v)
-		opponent, me := strToShape(words[0]), strToShape(words[1])
-
-		result += getScore(opponent, me)
-	}
-	return result
-}
-
-func totalScorePart2(filename string) int {
-	result := 0
-	data := getLines(filename)
-	for _, v := range data {
-		if v == "" {
-			continue
-		}
-
 		var (
 			words    = getWords(v)
 			opponent = strToShape(words[0])
-			me       = getWantedShape(opponent, words[1])
+			mePart1  = strToShape(words[1])
+			mePart2  = getWantedShape(opponent, words[1])
 		)
-		result += getScore(opponent, me)
+
+		part1 += getScore(opponent, mePart1)
+		part2 += getScore(opponent, mePart2)
 	}
-	return result
+	return part1, part2
 }
 
 func getScore(opponent shape, me shape) int {

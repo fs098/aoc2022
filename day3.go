@@ -3,17 +3,18 @@ package main
 import "fmt"
 
 func day3(filename string) {
+	var (
+		data  = getLines(filename)
+		part1 = sumOfPriorities1(data)
+		part2 = sumOfPriorities2(data)
+	)
+
 	fmt.Println("Day 3")
-
-	part1 := sumOfPriorities(filename)
 	fmt.Println("Part 1:", part1)
-
-	part2 := sumOfPrioritiesPart2(filename)
 	fmt.Println("Part 2:", part2)
 }
 
-func sumOfPriorities(filename string) int {
-	data := getLines(filename)
+func sumOfPriorities1(data []string) int {
 	result := 0
 
 	for _, val := range data {
@@ -39,13 +40,12 @@ func sumOfPriorities(filename string) int {
 	return result
 }
 
-func sumOfPrioritiesPart2(filename string) int {
-	data := getLines(filename)
+func sumOfPriorities2(data []string) int {
 	result := 0
 
 	for i := 0; i < len(data); i += 3 {
 		groupData := []string{data[i], data[i+1], data[i+2]}
-		foundSet := make(map[byte]int) // must == 3
+		foundSet := make(map[byte]int) // foundSet[x] must == 3
 
 		for _, val := range groupData {
 			alreadyFound := make(map[byte]bool)

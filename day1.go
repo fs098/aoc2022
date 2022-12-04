@@ -6,46 +6,17 @@ import (
 )
 
 func day1(filename string) {
+	data := getLines(filename)
+	part1, part2 := maxCals(data)
+
 	fmt.Println("Day 1")
-
-	part1 := maxCals(filename)
 	fmt.Printf("Part 1: %d\n", part1)
-
-	part2 := maxCalsPart2(filename)
 	fmt.Printf("Part 2: %d\n", part2)
 }
 
-func maxCals(filename string) int {
-	var (
-		data           = getLines(filename)
-		maxCals        = 0
-		currentElfCals = 0
-	)
-
-	if data[len(data)-1] != "" {
-		data = append(data, "")
-	}
-
-	for _, v := range data {
-		if v == "" {
-			if currentElfCals > maxCals {
-				maxCals = currentElfCals
-			}
-			currentElfCals = 0
-			continue
-		}
-		currentElfCals += readInt(v)
-	}
-
-	return maxCals
-}
-
-func maxCalsPart2(filename string) int {
-	var (
-		data           = getLines(filename)
-		totalCalsList  = []int{}
-		currentElfCals = 0
-	)
+func maxCals(data []string) (int, int) {
+	totalCalsList := []int{}
+	currentElfCals := 0
 
 	if data[len(data)-1] != "" {
 		data = append(data, "")
@@ -64,5 +35,8 @@ func maxCalsPart2(filename string) int {
 		return totalCalsList[i] > totalCalsList[j]
 	})
 
-	return totalCalsList[0] + totalCalsList[1] + totalCalsList[2]
+	part1 := totalCalsList[0]
+	part2 := totalCalsList[0] + totalCalsList[1] + totalCalsList[2]
+
+	return part1, part2
 }
