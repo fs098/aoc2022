@@ -32,10 +32,8 @@ func totalOverlap(data []string) (int, int) {
 
 func existsOverlap(s string) (bool, bool) {
 	var (
-		start1 int
-		start2 int
-		end1   int
-		end2   int
+		start1, end1 int
+		start2, end2 int
 
 		contains = false
 		overlaps = false
