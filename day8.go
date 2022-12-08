@@ -2,7 +2,17 @@ package main
 
 import "fmt"
 
-type grid [][]int
+type tree struct {
+	r int // row
+	c int // col
+}
+
+type Forest map[tree]int
+
+func (t *tree) add(t2 tree) {
+	t.r += t2.r
+	t.c += t2.c
+}
 
 func day8(filename string) {
 	data := getLines(filename)
@@ -15,98 +25,67 @@ func day8(filename string) {
 
 func treeHouse(data []string) (int, int) {
 	var (
-		grid = loadGrid(data)
-
-		part1 = 0
-		part2 = 0
+		forest = loadForest(data)
+		part1  = 0
+		part2  = 0
 	)
 
-	for r := 0; r < len(grid); r++ {
-		for c := 0; c < len(grid[0]); c++ {
-			isVisible, scenicScore := visibilityAndDistance(r, c, grid)
+	for tree, height := range forest {
+		isVisible, scenicScore := visAndScore(tree, height, forest)
 
-			if isVisible {
-				part1++
-			}
+		if isVisible {
+			part1++
+		}
 
-			if part2 < scenicScore {
-				part2 = scenicScore
-			}
+		if part2 < scenicScore {
+			part2 = scenicScore
 		}
 	}
+
 	return part1, part2
 }
 
-func visibilityAndDistance(r int, c int, g grid) (bool, int) {
+func visAndScore(t tree, height int, forest Forest) (bool, int) {
 	var (
-		rows, cols = len(g), len(g[0])
-		val        = g[r][c]
-
-		// part 1
-		up    = true
-		down  = true
-		left  = true
-		right = true
-		// part 2
-		distanceUp    = 0
-		distanceDown  = 0
-		distanceLeft  = 0
-		distanceRight = 0
+		directions  = []tree{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
+		isVisible   = false
+		scenicScore = 1
 	)
 
-	// up
-	for i := r - 1; i >= 0; i-- {
-		if val <= g[i][c] {
-			up = false
-			distanceUp++
-			break
-		}
-		distanceUp++
-	}
-	// down
-	for i := r + 1; i < rows; i++ {
-		if val <= g[i][c] {
-			down = false
-			distanceDown++
-			break
-		}
-		distanceDown++
-	}
-	// left
-	for i := c - 1; i >= 0; i-- {
-		if val <= g[r][i] {
-			left = false
-			distanceLeft++
-			break
-		}
-		distanceLeft++
-	}
-	// right
-	for i := c + 1; i < cols; i++ {
-		if val <= g[r][i] {
-			right = false
-			distanceRight++
-			break
-		}
-		distanceRight++
-	}
+	for _, direction := range directions {
+		dist := 1
+		tree := t
 
-	isVisible := up || down || left || right
-	scenicScore := distanceUp * distanceDown * distanceLeft * distanceRight
+		for {
+			tree.add(direction)
+
+			treeHeight, ok := forest[tree]
+			if !ok {
+				// reached edge
+				isVisible = true
+				scenicScore *= dist - 1
+				break
+			}
+
+			if height <= treeHeight {
+				scenicScore *= dist
+				break
+			}
+
+			dist++
+		}
+	}
 
 	return isVisible, scenicScore
 }
 
-func loadGrid(data []string) grid {
-	rows := len(data)
-	cols := len(data[0])
-	g := make([][]int, rows)
-	for i, val := range data {
-		r := make([]int, cols)
-		for j, char := range val {
-			r[j] = readInt(string(char))
+func loadForest(data []string) Forest {
+	f := make(map[tree]int)
+
+	for r, line := range data {
+		for c, char := range line {
+			f[tree{r, c}] = readInt(string(char))
 		}
-		g[i] = r
 	}
-	return g
+	return f
 }
