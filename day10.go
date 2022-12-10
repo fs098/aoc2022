@@ -100,10 +100,10 @@ func drawScreen(screen [][]bool) {
 	for _, line := range screen {
 		for _, b := range line {
 			if b {
-				fmt.Printf("#")
+				fmt.Printf("##")
 				continue
 			}
-			fmt.Printf(".")
+			fmt.Printf("  ")
 		}
 		fmt.Printf("\n")
 	}
