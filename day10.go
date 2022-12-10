@@ -19,7 +19,7 @@ func cathodeRayTube(data []string) (int, [][]bool) {
 		cycle       = 0
 		targetCycle = 20
 
-		sprite = initSprite()
+		sprite []bool
 		screen = initScreen()
 	)
 
@@ -58,21 +58,14 @@ func updateSignalStr(cycle, register int, result, targetCycle *int) {
 	}
 }
 
-func initSprite() []bool {
-	sprite := make([]bool, 40)
-	sprite[0], sprite[1], sprite[2] = true, true, true
-	return sprite
-}
-
 func updateSprite(register int) []bool {
 	sprite := make([]bool, 40)
 	start := register - 1
 
-	if start < 0 || start >= 40 {
-		return sprite
-	}
-
 	for i := start; i < start+3 && i < 40; i++ {
+		if i < 0 {
+			continue
+		}
 		sprite[i] = true
 	}
 
