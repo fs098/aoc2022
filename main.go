@@ -3,10 +3,10 @@ package main
 import "fmt"
 
 func main() {
-	day := 12
+	day := 13
 	switch day {
 	case 0:
-		day12("./input/day12_test.txt")
+		day13("./input/day13_test.txt")
 	case 1:
 		day1("./input/day1.txt")
 	case 2:
@@ -31,6 +31,8 @@ func main() {
 		day11("./input/day11.txt")
 	case 12:
 		day12("./input/day12.txt")
+	case 13:
+		day13("./input/day13.txt")
 
 	default:
 		fmt.Println("Invalid input:", day)
